@@ -16,3 +16,8 @@ gradle run
 http://localhost:8080/hola
 http://localhost:8080/hola?name=Foo
 ```
+
+## Admin API ( defaults provided by Dropwizard )
+```
+http://localhost:8081/
+```
