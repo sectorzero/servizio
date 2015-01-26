@@ -3,6 +3,9 @@ package com.fooorg.fooproj.resources;
 import com.fooorg.fooproj.model.HolaResponse;
 
 import java.util.concurrent.ThreadLocalRandom;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import org.apache.commons.lang.StringUtils;
 
 import com.codahale.metrics.annotation.Timed;
@@ -22,6 +25,15 @@ public class HolaResource {
 
     String template;
     String defaultName;
+
+    @Inject
+    public HolaResource(
+            @Named("template") String template,
+            @Named("defaultName") String defaultName)
+    {
+        this.template = template;
+        this.defaultName = defaultName;
+    }
 
     @GET
     @Timed

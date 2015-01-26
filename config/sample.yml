@@ -1,2 +1,7 @@
 template: Hola, %s!!
+
 defaultName: Amigo
+
+fooConfig:
+    url: somedb.somedomain.com
+    threshold: 3.345

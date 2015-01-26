@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class SampleConfiguration extends Configuration {
+public class SampleServiceConfiguration extends Configuration {
 
     @Valid
     @NotNull
@@ -23,5 +23,10 @@ public class SampleConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private String defaultName = "Stranger";
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private FooConfig fooConfig;
 
 }
