@@ -2,9 +2,12 @@ package com.fooorg.fooproj.core;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.fooorg.fooproj.framework.FooProjUnitTest;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import org.mockito.InOrder;
 import org.mockito.Mock;
@@ -13,6 +16,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@Category(FooProjUnitTest.class)
 public class FooConceptTest {
 
     @Mock

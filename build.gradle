@@ -30,3 +30,21 @@ applicationDefaultJvmArgs = []
 run {
     args 'server', './config/sample.yml'
 }
+
+test {
+    useJUnit {
+        includeCategories 'com.fooorg.fooproj.framework.FooProjUnitTest'
+    }
+}
+
+task integrationTest(type: Test) {
+    useJUnit {
+        includeCategories 'com.fooorg.fooproj.framework.FooProjIntegrationTest'
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        events 'passed'
+    }
+}
