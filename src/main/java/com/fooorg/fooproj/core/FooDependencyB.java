@@ -3,14 +3,18 @@ package com.fooorg.fooproj.core;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class FooDependencyB {
-   double threshold;
+   private final double threshold;
 
    @Inject
    public FooDependencyB(@Named("threshold") double threshold) {
       this.threshold = threshold;
+   }
+
+   public void invoke() {
+     // empty
    }
 }
