@@ -15,12 +15,15 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import io.federecio.dropwizard.swagger.SwaggerDropwizard;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SampleService extends Application<SampleServiceConfiguration> {
 
     GuiceBundle<SampleServiceConfiguration> guiceBundle;
+    SwaggerDropwizard swagger;
 
     public static void main(String[] args) throws Exception {
         new SampleService().run(args);
@@ -40,6 +43,9 @@ public class SampleService extends Application<SampleServiceConfiguration> {
                 .setConfigClass(SampleServiceConfiguration.class)
                 .build();
         bootstrap.addBundle(guiceBundle);
+
+        swagger = new SwaggerDropwizard();
+        swagger.onInitialize(bootstrap);
     }
 
     @Override
@@ -49,6 +55,9 @@ public class SampleService extends Application<SampleServiceConfiguration> {
 
         // Other Application Modules not related to Resources
         prepareAppModules(environment);
+
+        // Swagger
+        swagger.onRun(configuration, environment);
     }
 
     private void registerApiResources(SampleServiceConfiguration configuration, Environment environment) {
