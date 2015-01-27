@@ -33,3 +33,8 @@ http://localhost:8080/swagger
 http://localhost:8080/api-docs
 http://localhost:8080/api-docs/<path>
 ```
+
+## Complex Data Automatic Serialization/Deserialization
+```
+http://localhost:8080/complex
+```
