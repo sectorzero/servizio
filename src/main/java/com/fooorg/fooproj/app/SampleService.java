@@ -7,6 +7,7 @@ import com.fooorg.fooproj.configuration.SampleServiceModule;
 
 import com.fooorg.fooproj.core.FooConcept;
 
+import com.fooorg.fooproj.resources.ComplexResource;
 import com.fooorg.fooproj.resources.FooResource;
 import com.fooorg.fooproj.resources.HolaResource;
 
@@ -75,6 +76,7 @@ public class SampleService extends Application<SampleServiceConfiguration> {
     private void registerApiResourcesViaGuice(Environment environment) {
         environment.jersey().register(HolaResource.class);
         environment.jersey().register(FooResource.class);
+        environment.jersey().register(ComplexResource.class);
     }
 
     private void prepareAppModules(Environment environment) {
