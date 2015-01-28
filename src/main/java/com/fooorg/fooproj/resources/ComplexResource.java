@@ -3,6 +3,7 @@ package com.fooorg.fooproj.resources;
 import com.fooorg.fooproj.model.ModelComplexType;
 import com.fooorg.fooproj.model.ModelTypeA;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import com.google.common.collect.ImmutableList;
@@ -29,16 +30,35 @@ import lombok.Value;
 public class ComplexResource {
 
     @GET
+    @Path("/single")
     @ApiOperation(
-            value = "Default operation",
+            value = "Operation which return a single instance of the complex data type",
             notes = "Returns a complex object serialized as JSON",
             response = ModelComplexType.class)
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid Message ( dummy for demo )"),
             @ApiResponse(code = 404, message = "Not Found ( dummy for demo )") })
     @Timed
-    public ModelComplexType generate() {
+    public ModelComplexType single() {
         return generateRandomInstance();
+    }
+
+    @GET
+    @Path("/collection")
+    @ApiOperation(
+            value = "Operation which returns a collection of instances of the complex data type",
+            notes = "Returns a collection of complex object serialized as JSON",
+            response = ModelComplexType.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid Message ( dummy for demo )"),
+            @ApiResponse(code = 404, message = "Not Found ( dummy for demo )") })
+    @Timed
+    public Collection<ModelComplexType> collection() {
+        return new ImmutableList.Builder<ModelComplexType>()
+                .add(generateRandomInstance())
+                .add(generateRandomInstance())
+                .add(generateRandomInstance())
+                .build();
     }
 
     private ModelComplexType generateRandomInstance() {
