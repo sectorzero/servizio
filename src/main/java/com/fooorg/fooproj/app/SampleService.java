@@ -18,6 +18,11 @@ import io.dropwizard.setup.Environment;
 
 import io.federecio.dropwizard.swagger.SwaggerDropwizard;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.util.ContextInitializer;
+import ch.qos.logback.core.joran.spi.JoranException;
+import org.slf4j.LoggerFactory;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -51,14 +56,26 @@ public class SampleService extends Application<SampleServiceConfiguration> {
 
     @Override
     public void run(SampleServiceConfiguration configuration, Environment environment) throws Exception {
-        // Resources
-        registerApiResourcesViaGuice(environment);
+        // Ref : http://stackoverflow.com/questions/27356918/drop-wizard-request-response-logging
+        resetLoggerToDefault();
 
         // Other Application Modules not related to Resources
         prepareAppModules(environment);
 
+        // Resources
+        registerApiResourcesViaGuice(environment);
+
         // Swagger
         swagger.onRun(configuration, environment);
+    }
+
+    private void resetLoggerToDefault() throws JoranException {
+        // Reset logger to standard mechanism
+        // Ref : http://stackoverflow.com/questions/27356918/drop-wizard-request-response-logging
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        context.reset();
+        ContextInitializer initializer = new ContextInitializer(context);
+        initializer.autoConfig();
     }
 
     private void registerApiResources(SampleServiceConfiguration configuration, Environment environment) {
@@ -69,10 +86,7 @@ public class SampleService extends Application<SampleServiceConfiguration> {
         environment.jersey().register(holaResource);
     }
 
-    // TODO :
-    // Option A : Automatically register all resource classes with some annotation
-    // Option B : Collect the classes to register via configuration
-    // DO NOT USE dropwizard-guice's auto-config as it works wierdly
+    // DO NOT USE dropwizard-guice's 'autoConfig' as it works wierdly
     private void registerApiResourcesViaGuice(Environment environment) {
         environment.jersey().register(HolaResource.class);
         environment.jersey().register(FooResource.class);
