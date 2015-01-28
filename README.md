@@ -36,5 +36,6 @@ http://localhost:8080/api-docs/<path>
 
 ## Complex Data Automatic Serialization/Deserialization
 ```
-http://localhost:8080/complex
+http://localhost:8080/complex/single
+http://localhost:8080/complex/collection
 ```
