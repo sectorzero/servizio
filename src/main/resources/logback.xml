@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <!-- USE THIS FOR LOGGING TO stdout -->
+    <!--
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{ISO8601} [%thread] [%level] \(%class\) %msg%n</pattern>
         </encoder>
     </appender>
-  
-  <root level="info">
-    <appender-ref ref="STDOUT" />
-  </root>
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+    -->
+
+    <!-- USE THIS FOR LOGGING TO disk -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <encoder>
+            <pattern>%d{ISO8601} [%thread] [%level] \(%class\) %msg%n</pattern>
+            <!-- this quadruples logging throughput -->
+            <!--
+            <immediateFlush>false</immediateFlush>
+            -->
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>var/output/logs/app.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <maxHistory>24</maxHistory>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>`:w
+        </rollingPolicy>
+    </appender> 
+    <root level="info">
+        <appender-ref ref="FILE" />
+    </root>
 
 </configuration>
