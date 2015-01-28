@@ -17,7 +17,7 @@ http://localhost:8080/hola
 http://localhost:8080/hola?name=Foo
 ```
 
-## Foo API
+## Foo API ( Demos use of Guice for Dependency Injecton )
 ```
 http://localhost:8080/foo
 ```
@@ -39,3 +39,6 @@ http://localhost:8080/api-docs/<path>
 http://localhost:8080/complex/single
 http://localhost:8080/complex/collection
 ```
+## Logging
+* Application logging is to file at hourly rotation written to var/output/logs ( directories created automatically )
+* Test logging is to console
