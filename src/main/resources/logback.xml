@@ -27,7 +27,7 @@
             <!-- daily rollover -->
             <fileNamePattern>var/output/logs/app.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
             <maxHistory>24</maxHistory>
-            <cleanHistoryOnStart>false</cleanHistoryOnStart>`:w
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
         </rollingPolicy>
     </appender> 
     <root level="info">
