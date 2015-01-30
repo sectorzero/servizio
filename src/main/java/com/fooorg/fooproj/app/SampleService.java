@@ -4,32 +4,31 @@ import com.fooorg.fooproj.configuration.FooModule;
 import com.fooorg.fooproj.configuration.SampleServiceConfiguration;
 import com.fooorg.fooproj.configuration.SampleServiceConfigurationModule;
 import com.fooorg.fooproj.configuration.SampleServiceModule;
-
-import com.fooorg.fooproj.core.FooConcept;
-
 import com.fooorg.fooproj.resources.ComplexResource;
 import com.fooorg.fooproj.resources.FooResource;
 import com.fooorg.fooproj.resources.HolaResource;
 
-import com.hubspot.dropwizard.guice.GuiceBundle;
-import io.dropwizard.Application;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+import com.jasonclawson.dropwizardry.guice.AbstractDropwizardModule;
+import com.jasonclawson.dropwizardry.guice.GuiceApplication;
+import com.jasonclawson.dropwizardry.guice.RuntimeBundle;
+import com.jasonclawson.dropwizardry.guice.support.GuiceSupport;
 
 import io.federecio.dropwizard.swagger.SwaggerDropwizard;
 
+import io.dropwizard.Configuration;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.dropwizard.views.ViewBundle;
+
+import com.google.inject.Inject;
+
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ContextInitializer;
-import ch.qos.logback.core.joran.spi.JoranException;
 import org.slf4j.LoggerFactory;
-
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class SampleService extends Application<SampleServiceConfiguration> {
-
-    GuiceBundle<SampleServiceConfiguration> guiceBundle;
-    SwaggerDropwizard swagger;
+public class SampleService extends GuiceApplication<SampleServiceConfiguration> {
 
     public static void main(String[] args) throws Exception {
         new SampleService().run(args);
@@ -42,59 +41,66 @@ public class SampleService extends Application<SampleServiceConfiguration> {
 
     @Override
     public void initialize(Bootstrap<SampleServiceConfiguration> bootstrap) {
-        guiceBundle = GuiceBundle.<SampleServiceConfiguration>newBuilder()
-                .addModule(new SampleServiceModule())
-                .addModule(new SampleServiceConfigurationModule())
-                .addModule(new FooModule())
-                .setConfigClass(SampleServiceConfiguration.class)
-                .build();
-        bootstrap.addBundle(guiceBundle);
-
-        swagger = new SwaggerDropwizard();
-        swagger.onInitialize(bootstrap);
     }
 
     @Override
-    public void run(SampleServiceConfiguration configuration, Environment environment) throws Exception {
-        // Ref : http://stackoverflow.com/questions/27356918/drop-wizard-request-response-logging
-        resetLoggerToDefault();
+    public void configure(
+            final SampleServiceConfiguration configuration,
+            GuiceSupport.Builder<SampleServiceConfiguration> guiceBuilder) {
+        // Logging Setup
+        try {
+            // Ref : http://stackoverflow.com/questions/27356918/drop-wizard-request-response-logging
+            resetLoggerToDefault();
+        } catch(Exception e) {
+            System.exit(1);
+        }
 
-        // Other Application Modules not related to Resources
-        prepareAppModules(environment);
+        // Guice Modules
+        guiceBuilder.addModule(new SampleServiceConfigurationModule());
+        guiceBuilder.addModule(new SampleServiceModule());
+        guiceBuilder.addModule(new FooModule());
+        guiceBuilder.addModule(new AbstractDropwizardModule() {
+            @Override
+            protected void configureModule() {
+                // For Swagger
+                addBundle(ViewBundle.class);
+                addBundle(SwaggerBundle.class);
 
-        // Resources
-        registerApiResourcesViaGuice(environment);
-
-        // Swagger
-        swagger.onRun(configuration, environment);
+                // Resources
+                //registerApiResourcesViaGuice(jersey());
+                jersey().register(HolaResource.class);
+                jersey().register(FooResource.class);
+                jersey().register(ComplexResource.class);
+            }
+        });
     }
 
-    private void resetLoggerToDefault() throws JoranException {
+    private static class SwaggerBundle extends RuntimeBundle {
+        final Configuration configuration;
+        final SwaggerDropwizard swagger;
+
+        @Inject
+        public SwaggerBundle(Configuration configuration, SwaggerDropwizard swagger) {
+            this.configuration = configuration;
+            this.swagger = swagger;
+        }
+
+        @Override
+        public void run(Environment environment) {
+            try {
+                swagger.onRun(configuration, environment);
+            } catch (Exception e) {
+                System.exit(1);
+            }
+        }
+    }
+
+    private static void resetLoggerToDefault() throws Exception {
         // Reset logger to standard mechanism
         // Ref : http://stackoverflow.com/questions/27356918/drop-wizard-request-response-logging
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         context.reset();
         ContextInitializer initializer = new ContextInitializer(context);
         initializer.autoConfig();
-    }
-
-    private void registerApiResources(SampleServiceConfiguration configuration, Environment environment) {
-        // /hola
-        final HolaResource holaResource = new HolaResource(
-                configuration.getTemplate(),
-                configuration.getDefaultName());
-        environment.jersey().register(holaResource);
-    }
-
-    // DO NOT USE dropwizard-guice's 'autoConfig' as it works wierdly
-    private void registerApiResourcesViaGuice(Environment environment) {
-        environment.jersey().register(HolaResource.class);
-        environment.jersey().register(FooResource.class);
-        environment.jersey().register(ComplexResource.class);
-    }
-
-    private void prepareAppModules(Environment environment) {
-        // FooConcept fooInstance = guiceBundle.getInjector().getInstance(FooConcept.class);
-        // log.info(String.format("FooConcept Object Instance: %s", fooInstance));
     }
 }
