@@ -55,6 +55,7 @@ public class TokensResource {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid Message ( dummy for demo )"),
             @ApiResponse(code = 404, message = "Not Found ( dummy for demo )") })
+    @Timed
     public Token listTokenById(
             @ApiParam(value = "ID of token that needs to be fetched", allowableValues = "range[1,9999999999]", required = true) @PathParam("tokenId")  int id) {
         return dao.findNameByIdFromFooData(id);
@@ -66,6 +67,7 @@ public class TokensResource {
             notes = "Adds a token received serialized as JSON")
     @ApiResponses(value = {
             @ApiResponse(code = 405, message = "Invalid Input ( dummy for demo )")})
+    @Timed
     public Response addToken(
             @ApiParam(value = "Token that needs to be added to the store", required = true) Token token) {
         dao.insertIntoFooData(token.getId(), token.getToken());

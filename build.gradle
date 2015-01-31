@@ -18,7 +18,6 @@ repositories {
 dependencies {
     compile group: 'org.projectlombok', name: 'lombok', version: '1.14.8'
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: '0.7.1'
-    compile group: 'io.dropwizard', name: 'dropwizard-core', version: '0.7.1'
     compile group: 'io.dropwizard', name: 'dropwizard-assets', version: '0.7.1'
     compile group: 'io.dropwizard', name: 'dropwizard-views', version: '0.7.1'
     compile group: 'io.dropwizard', name: 'dropwizard-views-freemarker', version: '0.7.1'
