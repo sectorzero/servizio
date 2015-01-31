@@ -3,10 +3,13 @@ package com.fooorg.fooproj.resources;
 import com.fooorg.fooproj.core.FooDAO;
 import com.fooorg.fooproj.model.Token;
 
+import org.junit.Ignore;
 import org.mariadb.jdbc.MySQLDataSource;
 import org.skife.jdbi.v2.DBI;
 
 import java.util.Collection;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.fooorg.fooproj.framework.FooProjIntegrationTest;
 
@@ -56,7 +59,17 @@ public class TokensResourceTest {
 
         // Assert
         assertNotNull(tokens);
-        assertEquals(81, tokens.size());
+        assertEquals(82, tokens.size());
+    }
 
+    @Ignore
+    @Test
+    public void createToken() {
+        // Arrange
+        // Act
+        resource.addToken(new Token(
+                Math.abs(ThreadLocalRandom.current().nextInt()),
+                UUID.randomUUID().toString()));
+        // Assert
     }
 }

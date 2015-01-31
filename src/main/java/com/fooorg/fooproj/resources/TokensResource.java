@@ -7,11 +7,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import com.google.common.collect.ImmutableList;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.wordnik.swagger.annotations.*;
 import com.codahale.metrics.annotation.Timed;
@@ -23,6 +21,7 @@ import lombok.Value;
 @Path("/tokens")
 @Api(value = "/tokens", description = "Demos an API which uses a database to put and get a resource")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Value
 public class TokensResource {
 
@@ -31,10 +30,6 @@ public class TokensResource {
     @Inject
     public TokensResource(FooDAO dao) {
         this.dao = dao;
-    }
-
-    public void addToken(Token token) {
-        dao.insertIntoFooData(token.getId(), token.getToken());
     }
 
     @GET
@@ -65,4 +60,15 @@ public class TokensResource {
         return dao.findNameByIdFromFooData(id);
     }
 
+    @POST
+    @ApiOperation(
+            value = "Operation which adds a token",
+            notes = "Adds a token received serialized as JSON")
+    @ApiResponses(value = {
+            @ApiResponse(code = 405, message = "Invalid Input ( dummy for demo )")})
+    public Response addToken(
+            @ApiParam(value = "Token that needs to be added to the store", required = true) Token token) {
+        dao.insertIntoFooData(token.getId(), token.getToken());
+        return Response.ok().entity("SUCCESS").build();
+    }
 }
