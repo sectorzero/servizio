@@ -49,7 +49,7 @@ http://localhost:8080/tokens
 http://localhost:8080/tokens/{tokenId}
 ```
 * Setup
-** MariaDB installed on localhost and configuration updated appropriately in configuration/sample.yml
+* MariaDB installed on localhost and configuration updated appropriately in configuration/sample.yml
 ```
   create database sampleservice_test;
   use sampleservice_test;
