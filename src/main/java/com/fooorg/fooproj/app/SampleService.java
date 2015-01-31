@@ -8,6 +8,7 @@ import com.fooorg.fooproj.core.FooDataAccess;
 import com.fooorg.fooproj.resources.ComplexResource;
 import com.fooorg.fooproj.resources.FooResource;
 import com.fooorg.fooproj.resources.HolaResource;
+import com.fooorg.fooproj.resources.TokensResource;
 
 import com.jasonclawson.dropwizardry.guice.AbstractDropwizardModule;
 import com.jasonclawson.dropwizardry.guice.GuiceApplication;
@@ -21,13 +22,13 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 
+import java.util.stream.IntStream;
+
 import com.google.inject.Inject;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ContextInitializer;
 import org.slf4j.LoggerFactory;
-
-import java.util.stream.IntStream;
 
 public class SampleService extends GuiceApplication<SampleServiceConfiguration> {
 
@@ -63,18 +64,19 @@ public class SampleService extends GuiceApplication<SampleServiceConfiguration> 
         guiceBuilder.addModule(new AbstractDropwizardModule() {
             @Override
             protected void configureModule() {
-                // Swagger
+                // Swagger Via Guice
                 addBundle(ViewBundle.class);
                 addBundle(SwaggerBundle.class);
 
-                // Resources
+                // Resources Via Guice
                 //registerApiResourcesViaGuice(jersey());
                 jersey().register(HolaResource.class);
                 jersey().register(FooResource.class);
                 jersey().register(ComplexResource.class);
+                jersey().register(TokensResource.class);
 
                 // Test
-                addBundle(FooDataBundle.class);
+                // addBundle(FooDataBundle.class);
             }
         });
     }

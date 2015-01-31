@@ -12,7 +12,7 @@ dataSourceFactory:
   # the username
   user: root
   # the password
-  password: somepassword
+  password: insecure
   # the JDBC URL
   url: jdbc:mysql://localhost:3306/sampleservice_test
   # any properties specific to your JDBC driver
