@@ -4,6 +4,7 @@ import com.fooorg.fooproj.configuration.FooModule;
 import com.fooorg.fooproj.configuration.SampleServiceConfiguration;
 import com.fooorg.fooproj.configuration.SampleServiceConfigurationModule;
 import com.fooorg.fooproj.configuration.SampleServiceModule;
+import com.fooorg.fooproj.core.FooDataAccess;
 import com.fooorg.fooproj.resources.ComplexResource;
 import com.fooorg.fooproj.resources.FooResource;
 import com.fooorg.fooproj.resources.HolaResource;
@@ -25,9 +26,9 @@ import com.google.inject.Inject;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ContextInitializer;
 import org.slf4j.LoggerFactory;
-import lombok.extern.log4j.Log4j;
 
-@Log4j
+import java.util.stream.IntStream;
+
 public class SampleService extends GuiceApplication<SampleServiceConfiguration> {
 
     public static void main(String[] args) throws Exception {
@@ -62,7 +63,7 @@ public class SampleService extends GuiceApplication<SampleServiceConfiguration> 
         guiceBuilder.addModule(new AbstractDropwizardModule() {
             @Override
             protected void configureModule() {
-                // For Swagger
+                // Swagger
                 addBundle(ViewBundle.class);
                 addBundle(SwaggerBundle.class);
 
@@ -71,6 +72,9 @@ public class SampleService extends GuiceApplication<SampleServiceConfiguration> 
                 jersey().register(HolaResource.class);
                 jersey().register(FooResource.class);
                 jersey().register(ComplexResource.class);
+
+                // Test
+                addBundle(FooDataBundle.class);
             }
         });
     }
@@ -92,6 +96,22 @@ public class SampleService extends GuiceApplication<SampleServiceConfiguration> 
             } catch (Exception e) {
                 System.exit(1);
             }
+        }
+    }
+
+    private static class FooDataBundle extends RuntimeBundle {
+
+        final FooDataAccess fda;
+
+        @Inject
+        public FooDataBundle(FooDataAccess fda) {
+            this.fda = fda;
+        }
+
+        @Override
+        public void run(Environment environment) {
+            // fda.create();
+            IntStream.range(1, 10).forEach(s -> fda.insert());
         }
     }
 

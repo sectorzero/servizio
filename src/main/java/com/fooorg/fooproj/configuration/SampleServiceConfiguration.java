@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import io.dropwizard.db.DataSourceFactory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,5 +29,10 @@ public class SampleServiceConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private FooConfig fooConfig;
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private DataSourceFactory dataSourceFactory;
 
 }
