@@ -42,3 +42,18 @@ http://localhost:8080/complex/collection
 ## Logging
 * Application logging is to file at hourly rotation written to var/output/logs ( directories created automatically )
 * Test logging is to console
+
+## API which demos using a database for reading/writing a resource
+```
+http://localhost:8080/tokens
+http://localhost:8080/tokens/{tokenId}
+```
+* Setup
+** MariaDB installed on localhost and configuration updated appropriately in configuration/sample.yml
+```
+  create database sampleservice_test;
+  use sampleservice_test;
+  create table foodata (id int primary key, name varchar(100));
+```
+* Healthcheck on server start @ http://localhost:8081
+
