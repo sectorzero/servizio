@@ -17,6 +17,7 @@ package io.federecio.dropwizard.swagger;
 
 import com.wordnik.swagger.config.ConfigFactory;
 import com.wordnik.swagger.config.SwaggerConfig;
+import com.wordnik.swagger.model.ApiInfo;
 import io.dropwizard.Configuration;
 import io.dropwizard.jetty.ConnectorFactory;
 import io.dropwizard.jetty.HttpConnectorFactory;
@@ -52,6 +53,17 @@ public class SwaggerConfiguration {
         String swaggerBasePath = getSwaggerBasePath(host, port);
         config.setBasePath(swaggerBasePath);
         config.setApiPath(swaggerBasePath);
+
+        // Hack to test
+        config.setApiVersion("1.0");
+        config.setApiInfo(new ApiInfo(
+                "Java Demo API Service",
+                "Demo of bundling of Java frameworks to provide base application capable of service REST APIs",
+                "None",
+                "sndshd@gmail.com",
+                "CC0 1.0 Universal",
+                "https://creativecommons.org/publicdomain/zero/1.0/"));
+
         ConfigFactory.setConfig(config);
     }
 

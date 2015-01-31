@@ -58,6 +58,8 @@ public class SwaggerHostResolver {
         } else {
             try {
                 host = InetAddress.getLocalHost().getHostName();
+                // [sandesh] temporarily hacked this to force setting to localhost
+                host = DEFAULT_SWAGGER_HOST;
             } catch (UnknownHostException e) {
                 LOGGER.warn("Unable to determine host for swagger, using default value");
                 host = DEFAULT_SWAGGER_HOST;
