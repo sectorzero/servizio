@@ -1,5 +1,6 @@
-package com.fooorg.fooproj.app.configuration;
+package com.fooorg.fooproj.app.configuration.guice;
 
+import com.fooorg.fooproj.app.configuration.SampleServiceConfiguration;
 import com.fooorg.fooproj.core.FooDAO;
 
 import io.dropwizard.jdbi.DBIFactory;
