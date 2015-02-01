@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.federecio.dropwizard.swagger;
+package org.sectorzero.server.framework.dropwizard.swagger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

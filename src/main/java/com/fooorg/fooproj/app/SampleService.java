@@ -15,7 +15,7 @@ import com.jasonclawson.dropwizardry.guice.GuiceApplication;
 import com.jasonclawson.dropwizardry.guice.RuntimeBundle;
 import com.jasonclawson.dropwizardry.guice.support.GuiceSupport;
 
-import io.federecio.dropwizard.swagger.SwaggerDropwizard;
+import org.sectorzero.server.framework.dropwizard.swagger.SwaggerDropwizard;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
