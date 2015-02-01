@@ -1,9 +1,9 @@
-package com.fooorg.fooproj.app;
+package com.fooorg.fooproj.app.server;
 
-import com.fooorg.fooproj.configuration.FooModule;
-import com.fooorg.fooproj.configuration.SampleServiceConfiguration;
-import com.fooorg.fooproj.configuration.SampleServiceConfigurationModule;
-import com.fooorg.fooproj.configuration.SampleServiceModule;
+import com.fooorg.fooproj.app.configuration.FooModule;
+import com.fooorg.fooproj.app.configuration.SampleServiceConfiguration;
+import com.fooorg.fooproj.app.configuration.SampleServiceConfigurationModule;
+import com.fooorg.fooproj.app.configuration.SampleServiceModule;
 import com.fooorg.fooproj.core.FooDataAccess;
 import com.fooorg.fooproj.resources.ComplexResource;
 import com.fooorg.fooproj.resources.FooResource;

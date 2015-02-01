@@ -32,7 +32,7 @@ dependencies {
 }
 
 // main class of the application
-mainClassName = 'com.fooorg.fooproj.app.SampleService'
+mainClassName = 'com.fooorg.fooproj.app.server.SampleService'
 applicationDefaultJvmArgs = []
 
 run {

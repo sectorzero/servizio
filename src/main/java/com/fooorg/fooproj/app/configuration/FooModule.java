@@ -1,4 +1,4 @@
-package com.fooorg.fooproj.configuration;
+package com.fooorg.fooproj.app.configuration;
 
 import com.google.inject.AbstractModule;
 

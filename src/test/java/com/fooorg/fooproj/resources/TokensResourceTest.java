@@ -40,10 +40,8 @@ public class TokensResourceTest {
     @Test
     public void fetchTokenById() {
         // Arrange
-
         // Act
         Token t = resource.listTokenById(180130466);
-
         // Assert
         assertNotNull(t);
         assertEquals(180130466, t.getId());
@@ -53,10 +51,8 @@ public class TokensResourceTest {
     @Test
     public void fetchAllTokens() {
         // Arrange
-
         // Act
         Collection<Token> tokens = resource.listTokens();
-
         // Assert
         assertNotNull(tokens);
         assertEquals(82, tokens.size());

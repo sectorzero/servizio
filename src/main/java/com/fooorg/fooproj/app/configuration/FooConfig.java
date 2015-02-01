@@ -1,4 +1,4 @@
-package com.fooorg.fooproj.configuration;
+package com.fooorg.fooproj.app.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.Valid;
