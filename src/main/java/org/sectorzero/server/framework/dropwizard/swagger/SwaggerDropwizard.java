@@ -27,6 +27,7 @@ import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import org.sectorzero.server.framework.dropwizard.app.configuration.BaseConfiguration;
 
 import java.io.IOException;
 
@@ -41,7 +42,13 @@ public class SwaggerDropwizard {
     }
 
     public void onRun(Configuration configuration, Environment environment) throws IOException {
-        String host = SwaggerHostResolver.getSwaggerHost();
+        String endpointOverride = null;
+        if(configuration instanceof  BaseConfiguration) {
+            BaseConfiguration baseConf = (BaseConfiguration) configuration;
+            SwaggerSetup swaggerSetup = baseConf.getSwaggerSetup();
+            endpointOverride = swaggerSetup.getEndpointOverride();
+        }
+        String host = SwaggerHostResolver.getSwaggerHost(endpointOverride);
         onRun(configuration, environment, host);
     }
 

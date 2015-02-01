@@ -15,6 +15,7 @@
  */
 package org.sectorzero.server.framework.dropwizard.swagger;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +47,18 @@ public class SwaggerHostResolver {
      * 2 - InetAddress.getLocalHost().getHostName()
      * 3 - localhost
      */
-    public static String getSwaggerHost() throws IOException {
+    public static String getSwaggerHost(String endpointOverride) throws IOException {
         String host;
-        if (new File("/var/lib/cloud/").exists()) {
+        if (StringUtils.isNotEmpty(endpointOverride)) {
+            try {
+                // Verify Host Data
+                InetAddress.getByName(endpointOverride);
+                host = endpointOverride;
+            } catch (UnknownHostException e) {
+                LOGGER.warn("Unable to determine host for swagger, using default value");
+                host = DEFAULT_SWAGGER_HOST;
+            }
+        } else if (new File("/var/lib/cloud/").exists()) {
             LOGGER.info("Folder /var/lib/cloud exists so assuming we are running on AWS, will attempt to get host name from " + AWS_HOST_NAME_URL);
             HttpURLConnection urlConnection = (HttpURLConnection) new URL(AWS_HOST_NAME_URL).openConnection();
             urlConnection.setRequestMethod("GET");

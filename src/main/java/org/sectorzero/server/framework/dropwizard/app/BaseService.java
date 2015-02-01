@@ -1,13 +1,13 @@
 package org.sectorzero.server.framework.dropwizard.app;
 
-import io.dropwizard.setup.Bootstrap;
+import org.sectorzero.server.framework.dropwizard.app.configuration.BaseConfiguration;
 import org.sectorzero.server.framework.dropwizard.guice.AbstractDropwizardModule;
 import org.sectorzero.server.framework.dropwizard.guice.GuiceApplication;
 import org.sectorzero.server.framework.dropwizard.guice.RuntimeBundle;
 import org.sectorzero.server.framework.dropwizard.guice.support.GuiceSupport;
-
 import org.sectorzero.server.framework.dropwizard.swagger.SwaggerDropwizard;
 
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ContextInitializer;
 
-public abstract class BaseService<T extends Configuration> extends GuiceApplication<T> {
+public abstract class BaseService<T extends BaseConfiguration> extends GuiceApplication<T> {
 
     @Override
     public void initialize(Bootstrap<T> bootstrap) {
