@@ -1,4 +1,4 @@
-package com.jasonclawson.dropwizardry.guice;
+package org.sectorzero.server.framework.dropwizard.guice;
 
 import io.dropwizard.Bundle;
 import io.dropwizard.setup.Bootstrap;

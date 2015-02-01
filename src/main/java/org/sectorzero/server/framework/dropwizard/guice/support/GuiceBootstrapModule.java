@@ -1,4 +1,4 @@
-package com.jasonclawson.dropwizardry.guice.support;
+package org.sectorzero.server.framework.dropwizard.guice.support;
 
 import io.dropwizard.Bundle;
 import io.dropwizard.Configuration;
@@ -19,7 +19,7 @@ import com.codahale.metrics.health.HealthCheck;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
-import com.jasonclawson.dropwizardry.guice.AbstractDropwizardModule;
+import org.sectorzero.server.framework.dropwizard.guice.AbstractDropwizardModule;
 
 /**
  * Initializes dropwizard bundles that were added with AbstractDropwizardModule. These 

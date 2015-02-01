@@ -10,10 +10,10 @@ import com.fooorg.fooproj.resources.FooResource;
 import com.fooorg.fooproj.resources.HolaResource;
 import com.fooorg.fooproj.resources.TokensResource;
 
-import com.jasonclawson.dropwizardry.guice.AbstractDropwizardModule;
-import com.jasonclawson.dropwizardry.guice.GuiceApplication;
-import com.jasonclawson.dropwizardry.guice.RuntimeBundle;
-import com.jasonclawson.dropwizardry.guice.support.GuiceSupport;
+import org.sectorzero.server.framework.dropwizard.guice.AbstractDropwizardModule;
+import org.sectorzero.server.framework.dropwizard.guice.GuiceApplication;
+import org.sectorzero.server.framework.dropwizard.guice.RuntimeBundle;
+import org.sectorzero.server.framework.dropwizard.guice.support.GuiceSupport;
 
 import org.sectorzero.server.framework.dropwizard.swagger.SwaggerDropwizard;
 

@@ -1,7 +1,7 @@
-package com.jasonclawson.dropwizardry.guice;
+package org.sectorzero.server.framework.dropwizard.guice;
 
-import com.jasonclawson.dropwizardry.guice.support.GuiceBootstrapModule;
-import com.jasonclawson.dropwizardry.guice.support.GuiceSupport;
+import org.sectorzero.server.framework.dropwizard.guice.support.GuiceBootstrapModule;
+import org.sectorzero.server.framework.dropwizard.guice.support.GuiceSupport;
 
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
@@ -42,5 +42,5 @@ public abstract class GuiceApplication<T extends Configuration> extends Applicat
     
     
     
-    public abstract void configure(T configuration, com.jasonclawson.dropwizardry.guice.support.GuiceSupport.Builder<T> guiceBuilder);
+    public abstract void configure(T configuration, org.sectorzero.server.framework.dropwizard.guice.support.GuiceSupport.Builder<T> guiceBuilder);
 }
