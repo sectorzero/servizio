@@ -25,6 +25,7 @@ import io.dropwizard.server.DefaultServerFactory;
 import io.dropwizard.server.ServerFactory;
 import io.dropwizard.server.SimpleServerFactory;
 import io.dropwizard.setup.Environment;
+import org.sectorzero.server.framework.dropwizard.app.configuration.BaseConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +50,17 @@ public class SwaggerConfiguration {
 
     public void setUpSwaggerFor(String host, Integer port) {
         SwaggerConfig config = ConfigFactory.config();
+
         String swaggerBasePath = getSwaggerBasePath(host, port);
         config.setBasePath(swaggerBasePath);
         config.setApiPath(swaggerBasePath);
+
+        if(configuration instanceof BaseConfiguration) {
+            BaseConfiguration baseConf = (BaseConfiguration) configuration;
+            config.setApiVersion(baseConf.getApiInfoData().getApiVersion());
+            config.setApiInfo(ApiInfoData.toApiInfo(baseConf.getApiInfoData()));
+        }
+
         ConfigFactory.setConfig(config);
     }
 

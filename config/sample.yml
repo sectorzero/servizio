@@ -35,3 +35,12 @@ dataSourceFactory:
 
 swaggerSetup:
   endpointOverride: localhost
+
+apiInfoData:
+  apiVersion: 1.0.0
+  title: "Java Demo API Service"
+  description: "Demo of bundling of Java frameworks to provide base application capable of service REST APIs"
+  termsOfServiceUrl: "None"
+  contact: "sndshd@gmail.com"
+  license: "CC0 1.0 Universal"
+  licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/"

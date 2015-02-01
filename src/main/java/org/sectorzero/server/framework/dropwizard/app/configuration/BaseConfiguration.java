@@ -1,5 +1,7 @@
 package org.sectorzero.server.framework.dropwizard.app.configuration;
 
+import com.wordnik.swagger.model.ApiInfo;
+import org.sectorzero.server.framework.dropwizard.swagger.ApiInfoData;
 import org.sectorzero.server.framework.dropwizard.swagger.SwaggerSetup;
 
 import io.dropwizard.Configuration;
@@ -20,5 +22,10 @@ public class BaseConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private SwaggerSetup swaggerSetup = new SwaggerSetup();
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private ApiInfoData apiInfoData = new ApiInfoData();
 
 }
