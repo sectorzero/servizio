@@ -50,7 +50,7 @@ http://localhost:8080/complex/collection
 http://localhost:8080/tokens ( GET, POST )
 http://localhost:8080/tokens/{tokenId} ( GET )
 ```
-### Setup
+#### Setup
 - MariaDB installed on localhost
 - Configuration updated appropriately in configuration/sample.yml ( username/password )
 - Schema setup
