@@ -27,23 +27,25 @@ http://localhost:8080/api-docs/<path>
 * Application logging is to file at hourly rotation written to var/output/logs ( directories created automatically )
 * Test logging is to console
 
-## Hola API
+## API Demos
+
+### /hola ( Simple Hello World )
 ```
 http://localhost:8080/hola
 http://localhost:8080/hola?name=Foo
 ```
 
-## Foo API ( Demos use of Guice for Dependency Injecton )
+### /foo ( Demos use of Guice for Dependency Injecton )
 ```
 http://localhost:8080/foo
 ```
-## Complex Data RPC Automatic Marshalling/Unmarshalling
+## /complex ( Automatic Marshalling/Unmarshalling for Complex Data RPC )
 ```
 http://localhost:8080/complex/single
 http://localhost:8080/complex/collection
 ```
 
-## API which demos using a database for reading/writing a resource
+## /tokens ( Using a database for reading/writing a resource )
 ```
 http://localhost:8080/tokens ( GET, POST )
 http://localhost:8080/tokens/{tokenId} ( GET )
