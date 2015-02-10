@@ -1,5 +1,6 @@
 package org.sectorzero.server.framework.dropwizard.app;
 
+import io.dropwizard.lifecycle.Managed;
 import org.sectorzero.server.framework.dropwizard.app.configuration.BaseConfiguration;
 import org.sectorzero.server.framework.dropwizard.guice.AbstractDropwizardModule;
 import org.sectorzero.server.framework.dropwizard.guice.GuiceApplication;
@@ -48,6 +49,16 @@ public abstract class BaseService<T extends BaseConfiguration> extends GuiceAppl
             guiceBuilder.addModule(module);
         }
 
+        // User Application 'Managed' Modules
+        guiceBuilder.addModule(new AbstractDropwizardModule() {
+            @Override
+            protected void configureModule() {
+                for(Class<? extends Managed> m : userLifecycleManagedClasses()) {
+                    lifecycle().manage(m);
+                }
+            }
+        });
+
         // User Application 'Resource' Modules
         guiceBuilder.addModule(new AbstractDropwizardModule() {
             @Override
@@ -64,6 +75,12 @@ public abstract class BaseService<T extends BaseConfiguration> extends GuiceAppl
      * Object instance bindings of your application
      */
     protected abstract List<AbstractModule> userGuiceModules();
+
+    /**
+     * Provide the Lifecycle 'Managed' objects to be available by your application
+     * @return
+     */
+    protected abstract List<Class <? extends Managed>> userLifecycleManagedClasses();
 
     /**
      * Provide the REST enabled resources to be exposed by your application
