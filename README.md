@@ -39,13 +39,13 @@ http://localhost:8080/hola?name=Foo
 ```
 http://localhost:8080/foo
 ```
-## /complex ( Automatic Marshalling/Unmarshalling for Complex Data RPC )
+### /complex ( Automatic Marshalling/Unmarshalling for Complex Data RPC )
 ```
 http://localhost:8080/complex/single
 http://localhost:8080/complex/collection
 ```
 
-## /tokens ( Using a database for reading/writing a resource )
+### /tokens ( Using a database for reading/writing a resource )
 ```
 http://localhost:8080/tokens ( GET, POST )
 http://localhost:8080/tokens/{tokenId} ( GET )
@@ -63,3 +63,12 @@ http://localhost:8080/tokens/{tokenId} ( GET )
 - Run healthcheck to see if connected to DB @ http://localhost:8081
 - Execute the APIs using the Swagger UI ( http://localhost:8080/swagger ) or your fav client.
 
+## TODO
+- RequestId injected for requests/responses
+- WADL enable
+- In-memory DB util for DB testing
+- Managed support
+- Metrics log support
+- Request log support
+- Enabling JMX via JMXMP
+- HttpClient support and example
