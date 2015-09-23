@@ -16,11 +16,12 @@ gradle run
 http://localhost:8081/
 ```
 
-## API Documentation and Explorer ( using Swagger )
+## API Documentation and Explorer ( using Swagger and WADL )
 ```
 http://localhost:8080/swagger
 http://localhost:8080/api-docs
 http://localhost:8080/api-docs/<path>
+http://localhost:8080/application.wadl
 ```
 
 ## Logging

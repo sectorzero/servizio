@@ -1,26 +1,21 @@
 package org.sectorzero.servizio.app;
 
-import io.dropwizard.lifecycle.Managed;
 import org.sectorzero.servizio.app.configuration.BaseConfiguration;
 import org.sectorzero.servizio.dropwizard.guice.AbstractDropwizardModule;
 import org.sectorzero.servizio.dropwizard.guice.GuiceApplication;
-import org.sectorzero.servizio.dropwizard.guice.RuntimeBundle;
 import org.sectorzero.servizio.dropwizard.guice.support.GuiceSupport;
-import org.sectorzero.servizio.dropwizard.swagger.SwaggerDropwizard;
 
 import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.Configuration;
-import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import io.dropwizard.lifecycle.Managed;
 
 import java.util.List;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 
 import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ContextInitializer;
+
+import com.google.inject.AbstractModule;
 
 public abstract class BaseService<T extends BaseConfiguration> extends GuiceApplication<T> {
 
@@ -41,6 +36,7 @@ public abstract class BaseService<T extends BaseConfiguration> extends GuiceAppl
                 // Swagger Via Guice
                 addBundle(ViewBundle.class);
                 addBundle(SwaggerBundle.class);
+                addBundle(JerseyWadlBundle.class);
             }
         });
 
@@ -92,37 +88,15 @@ public abstract class BaseService<T extends BaseConfiguration> extends GuiceAppl
      * Reset logger to standard mechanism
      * Ref : http://stackoverflow.com/questions/27356918/drop-wizard-request-response-logging
      */
-    private static void setupLogging() {
+    private void setupLogging() {
         try {
             LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
             context.reset();
             ContextInitializer initializer = new ContextInitializer(context);
             initializer.autoConfig();
         } catch(Exception e) {
-            System.exit(1);
+            throw new RuntimeException("Exception setting-up/initializing Logging", e);
         }
     }
 
-    /**
-     * Runtime setup to initialize and start Swagger components
-     */
-    private static class SwaggerBundle extends RuntimeBundle {
-        final Configuration configuration;
-        final SwaggerDropwizard swagger;
-
-        @Inject
-        public SwaggerBundle(Configuration configuration, SwaggerDropwizard swagger) {
-            this.configuration = configuration;
-            this.swagger = swagger;
-        }
-
-        @Override
-        public void run(Environment environment) {
-            try {
-                swagger.onRun(configuration, environment);
-            } catch (Exception e) {
-                System.exit(1);
-            }
-        }
-    }
 }
