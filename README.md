@@ -1,4 +1,4 @@
-# JavaApiServerDemo
+# Servizio
 Stable framework bundling for serving RESTful APIs
 
 ## Build
