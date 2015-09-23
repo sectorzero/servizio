@@ -34,6 +34,7 @@ public abstract class BaseService<T extends BaseConfiguration> extends GuiceAppl
             @Override
             protected void configureModule() {
                 // Swagger Via Guice
+                addBundle(JMXMPJmxConnectorServerBundle.class);
                 addBundle(ViewBundle.class);
                 addBundle(SwaggerBundle.class);
                 addBundle(JerseyWadlBundle.class);
