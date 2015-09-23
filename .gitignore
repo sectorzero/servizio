@@ -9,5 +9,7 @@ gradle-app.setting
 
 .idea
 *.iml
+*.iws
+*.ipr
 
 var
