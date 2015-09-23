@@ -1,0 +1,89 @@
+package org.sectorzero.servizio.dropwizard.guice.support;
+
+import io.dropwizard.Bundle;
+import io.dropwizard.Configuration;
+import io.dropwizard.ConfiguredBundle;
+import io.dropwizard.lifecycle.Managed;
+import io.dropwizard.setup.Environment;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.validation.Validator;
+
+import lombok.extern.slf4j.Slf4j;
+
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.health.HealthCheck;
+import com.google.inject.Inject;
+import com.google.inject.Provides;
+import com.google.inject.name.Named;
+import org.sectorzero.servizio.dropwizard.guice.AbstractDropwizardModule;
+
+/**
+ * Initializes dropwizard bundles that were added with AbstractDropwizardModule. These 
+ * bundles are instances of Bundle, not ConfiguredBundle because you can simply inject 
+ * the Configuration in.
+ * 
+ * @author jclawson
+ */
+@Slf4j
+public class GuiceBootstrapModule extends AbstractDropwizardModule {
+    @Override
+    protected void configureModule() {
+        bind(GuiceDropwizardBundleInitializer.class).asEagerSingleton();
+    }
+    
+    @Provides
+    protected MetricRegistry provideMetricRegistry(Environment environment) {
+        return environment.metrics();
+    }
+    
+    @Provides
+    protected Validator provideValidator(Environment environment) {
+        return environment.getValidator();
+    }
+    
+    protected static class GuiceDropwizardBundleInitializer<T extends Configuration>{
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @Inject
+        protected GuiceDropwizardBundleInitializer(
+                @Named("dw-bundles") Set<Bundle> bundles,
+                @Named("dw-configured-bundles") Set<ConfiguredBundle> configuredBundles,
+                @Named("dw-jersey-resources") Set<Object> resources,
+                @Named("dw-managed") Set<Managed> managed,
+                @Named("dw-healthchecks") Map<String, HealthCheck> healthChecks,
+                Environment environment,
+                Configuration configuration) {
+            
+            for(Bundle bundle : bundles) {
+                bundle.run(environment);
+            }
+            
+            for(ConfiguredBundle bundle : configuredBundles) {
+                try {
+                    bundle.run(configuration, environment);
+                } catch (Exception e) {
+                    throw new RuntimeException("Unable to run configured bundle '"+bundle.getClass()+"'", e);
+                }
+            }
+            
+            //TODO: how does this play with dropwizard?
+            for(Object resource : resources) {
+                log.info("Adding "+resource.getClass().getSimpleName()+" to Jersey");
+                environment.jersey().register(resource);
+            }
+            
+            for(Managed m : managed) {
+                log.info("Adding "+m.getClass().getSimpleName()+" to lifecycle management");
+                environment.lifecycle().manage(m);
+            }
+            
+            for(Entry<String, HealthCheck> h : healthChecks.entrySet()) {
+                log.info("Adding "+h.getKey()+":"+h.getValue().getClass().getSimpleName()+" to health checks");
+                environment.healthChecks().register(h.getKey(), h.getValue());
+            }
+        }
+    }
+}
