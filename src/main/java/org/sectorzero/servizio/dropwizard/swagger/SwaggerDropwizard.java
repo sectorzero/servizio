@@ -22,6 +22,7 @@ import com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON;
 import com.wordnik.swagger.jaxrs.listing.ResourceListingProvider;
 import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
 import com.wordnik.swagger.reader.ClassReaders;
+
 import io.dropwizard.Configuration;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -29,7 +30,9 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import org.sectorzero.servizio.app.configuration.BaseConfiguration;
 
-import java.io.IOException;
+import org.apache.commons.lang.StringUtils;
+
+import java.net.URI;
 
 /**
  * @author Federico Recio
@@ -41,15 +44,27 @@ public class SwaggerDropwizard {
         bootstrap.addBundle(new ViewBundle());
     }
 
-    public void onRun(Configuration configuration, Environment environment) throws IOException {
-        String endpointOverride = null;
+    public void onRun(Configuration configuration, Environment environment) throws Exception {
+        String host = null;
+        Integer port = null;
         if(configuration instanceof  BaseConfiguration) {
             BaseConfiguration baseConf = (BaseConfiguration) configuration;
             SwaggerSetup swaggerSetup = baseConf.getSwaggerSetup();
-            endpointOverride = swaggerSetup.getEndpointOverride();
+            String endpointOverride = swaggerSetup.getEndpointOverride();
+            if(!StringUtils.isEmpty(endpointOverride)) {
+                URI endpointURI = URI.create("none://" + endpointOverride);
+                if(StringUtils.isEmpty(endpointURI.getHost())) {
+                    throw new IllegalArgumentException(String.format(
+                        "EndpointOverride needs to have a valid hostname, Provided=%s", endpointOverride));
+                }
+                host = endpointURI.getHost();
+                if(endpointURI.getPort() != -1) {
+                    port = endpointURI.getPort();
+                }
+            }
         }
-        String host = SwaggerHostResolver.getSwaggerHost(endpointOverride);
-        onRun(configuration, environment, host);
+        String resolvedHost = SwaggerHostResolver.getSwaggerHost(host);
+        onRun(configuration, environment, resolvedHost, port);
     }
 
     /**
