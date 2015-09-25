@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.sectorzero.servizio.jersey.RequestTracing;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,5 +27,10 @@ public class BaseConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private ApiInfoData apiInfoData = new ApiInfoData();
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private RequestTracing requestTracing = new RequestTracing();
 
 }

@@ -1,5 +1,7 @@
 package org.sectorzero.servizio.app;
 
+import org.sectorzero.servizio.jersey.RequestTracingBundle;
+
 import org.sectorzero.servizio.app.configuration.BaseConfiguration;
 import org.sectorzero.servizio.dropwizard.guice.AbstractDropwizardModule;
 import org.sectorzero.servizio.dropwizard.guice.GuiceApplication;
@@ -38,6 +40,7 @@ public abstract class BaseService<T extends BaseConfiguration> extends GuiceAppl
                 addBundle(ViewBundle.class);
                 addBundle(SwaggerBundle.class);
                 addBundle(JerseyWadlBundle.class);
+                addBundle(RequestTracingBundle.class);
             }
         });
 
